@@ -4,6 +4,7 @@
  */
 package openroom.com.Service.controllers;
 
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
@@ -12,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import java.util.Map;
 
 import openroom.com.Service.repositories.UsersRepository;
 
@@ -22,10 +22,11 @@ public class Users {
     @Autowired
     UsersRepository usersRepository;
     
-    private Gson gson;
-
-    @GetMapping("/users")
-    public String GetUsers(){
-      return "";
+    @GetMapping(value="/users", produces = "application/json")
+    public Map<String,Object> GetUsers(){
+      HashMap<String,Object> response = new HashMap<>();
+      response.put("responseCode", 200);
+      response.put("users",usersRepository.findAll());
+      return response;
     }
 }
