@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
     @NamedQuery(name = "Users.findByUserName", query = "SELECT u FROM Users u WHERE u.userName = :userName"),
     @NamedQuery(name = "Users.findByProfilePhotoUrl", query = "SELECT u FROM Users u WHERE u.profilePhotoUrl = :profilePhotoUrl")})
-public class Users implements Serializable {
+public class UsersEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,16 +47,16 @@ public class Users implements Serializable {
     @Column(name = "profile_photo_url")
     private String profilePhotoUrl;
     @OneToMany(mappedBy = "idUser")
-    private List<Cards> cardsList;
+    private List<CardsEntity> cardsList;
     @OneToMany(mappedBy = "idUser")
-    private List<CardsComments> cardsCommentsList;
+    private List<CardsCommentsEntity> cardsCommentsList;
     @OneToMany(mappedBy = "idUser")
-    private List<RoomsUsers> roomsUsersList;
+    private List<RoomsUsersEntity> roomsUsersList;
 
-    public Users() {
+    public UsersEntity() {
     }
 
-    public Users(Integer id) {
+    public UsersEntity(Integer id) {
         this.id = id;
     }
 
@@ -93,29 +93,29 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public List<Cards> getCardsList() {
+    public List<CardsEntity> getCardsList() {
         return cardsList;
     }
 
-    public void setCardsList(List<Cards> cardsList) {
+    public void setCardsList(List<CardsEntity> cardsList) {
         this.cardsList = cardsList;
     }
 
     @XmlTransient
-    public List<CardsComments> getCardsCommentsList() {
+    public List<CardsCommentsEntity> getCardsCommentsList() {
         return cardsCommentsList;
     }
 
-    public void setCardsCommentsList(List<CardsComments> cardsCommentsList) {
+    public void setCardsCommentsList(List<CardsCommentsEntity> cardsCommentsList) {
         this.cardsCommentsList = cardsCommentsList;
     }
 
     @XmlTransient
-    public List<RoomsUsers> getRoomsUsersList() {
+    public List<RoomsUsersEntity> getRoomsUsersList() {
         return roomsUsersList;
     }
 
-    public void setRoomsUsersList(List<RoomsUsers> roomsUsersList) {
+    public void setRoomsUsersList(List<RoomsUsersEntity> roomsUsersList) {
         this.roomsUsersList = roomsUsersList;
     }
 
@@ -129,10 +129,10 @@ public class Users implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Users)) {
+        if (!(object instanceof UsersEntity)) {
             return false;
         }
-        Users other = (Users) object;
+        UsersEntity other = (UsersEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

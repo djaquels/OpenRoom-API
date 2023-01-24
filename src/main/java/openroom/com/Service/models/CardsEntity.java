@@ -28,13 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "cards", catalog = "openroom", schema = "public")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Cards.findAll", query = "SELECT c FROM Cards c"),
-    @NamedQuery(name = "Cards.findById", query = "SELECT c FROM Cards c WHERE c.id = :id"),
-    @NamedQuery(name = "Cards.findByContent", query = "SELECT c FROM Cards c WHERE c.content = :content"),
-    @NamedQuery(name = "Cards.findByUpvotes", query = "SELECT c FROM Cards c WHERE c.upvotes = :upvotes"),
-    @NamedQuery(name = "Cards.findByDownvotes", query = "SELECT c FROM Cards c WHERE c.downvotes = :downvotes")})
-public class Cards implements Serializable {
+public class CardsEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,21 +45,21 @@ public class Cards implements Serializable {
     private Integer downvotes;
     @JoinColumn(name = "id_room", referencedColumnName = "id")
     @ManyToOne
-    private Rooms idRoom;
+    private RoomsEntity idRoom;
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     @ManyToOne
-    private Users idUser;
+    private UsersEntity idUser;
     @OneToMany(mappedBy = "idCard")
-    private List<CardsComments> cardsCommentsList;
+    private List<CardsCommentsEntity> cardsCommentsList;
 
-    public Cards() {
+    public CardsEntity() {
     }
 
-    public Cards(Integer id) {
+    public CardsEntity(Integer id) {
         this.id = id;
     }
 
-    public Cards(Integer id, String content) {
+    public CardsEntity(Integer id, String content) {
         this.id = id;
         this.content = content;
     }
@@ -102,28 +96,28 @@ public class Cards implements Serializable {
         this.downvotes = downvotes;
     }
 
-    public Rooms getIdRoom() {
+    public RoomsEntity getIdRoom() {
         return idRoom;
     }
 
-    public void setIdRoom(Rooms idRoom) {
+    public void setIdRoom(RoomsEntity idRoom) {
         this.idRoom = idRoom;
     }
 
-    public Users getIdUser() {
+    public UsersEntity getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(Users idUser) {
+    public void setIdUser(UsersEntity idUser) {
         this.idUser = idUser;
     }
 
     @XmlTransient
-    public List<CardsComments> getCardsCommentsList() {
+    public List<CardsCommentsEntity> getCardsCommentsList() {
         return cardsCommentsList;
     }
 
-    public void setCardsCommentsList(List<CardsComments> cardsCommentsList) {
+    public void setCardsCommentsList(List<CardsCommentsEntity> cardsCommentsList) {
         this.cardsCommentsList = cardsCommentsList;
     }
 
@@ -137,10 +131,10 @@ public class Cards implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Cards)) {
+        if (!(object instanceof CardsEntity)) {
             return false;
         }
-        Cards other = (Cards) object;
+        CardsEntity other = (CardsEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

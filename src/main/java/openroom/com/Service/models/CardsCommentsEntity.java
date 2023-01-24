@@ -25,12 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "cards_comments", catalog = "openroom", schema = "public")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "CardsComments.findAll", query = "SELECT c FROM CardsComments c"),
-    @NamedQuery(name = "CardsComments.findById", query = "SELECT c FROM CardsComments c WHERE c.id = :id"),
-    @NamedQuery(name = "CardsComments.findByIsAnswer", query = "SELECT c FROM CardsComments c WHERE c.isAnswer = :isAnswer"),
-    @NamedQuery(name = "CardsComments.findByContent", query = "SELECT c FROM CardsComments c WHERE c.content = :content")})
-public class CardsComments implements Serializable {
+public class CardsCommentsEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,15 +39,15 @@ public class CardsComments implements Serializable {
     private String content;
     @JoinColumn(name = "id_card", referencedColumnName = "id")
     @ManyToOne
-    private Cards idCard;
+    private CardsEntity idCard;
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     @ManyToOne
-    private Users idUser;
+    private UsersEntity idUser;
 
-    public CardsComments() {
+    public CardsCommentsEntity() {
     }
 
-    public CardsComments(Integer id) {
+    public CardsCommentsEntity(Integer id) {
         this.id = id;
     }
 
@@ -80,19 +75,19 @@ public class CardsComments implements Serializable {
         this.content = content;
     }
 
-    public Cards getIdCard() {
+    public CardsEntity getIdCard() {
         return idCard;
     }
 
-    public void setIdCard(Cards idCard) {
+    public void setIdCard(CardsEntity idCard) {
         this.idCard = idCard;
     }
 
-    public Users getIdUser() {
+    public UsersEntity getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(Users idUser) {
+    public void setIdUser(UsersEntity idUser) {
         this.idUser = idUser;
     }
 
@@ -106,10 +101,10 @@ public class CardsComments implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CardsComments)) {
+        if (!(object instanceof CardsCommentsEntity)) {
             return false;
         }
-        CardsComments other = (CardsComments) object;
+        CardsCommentsEntity other = (CardsCommentsEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

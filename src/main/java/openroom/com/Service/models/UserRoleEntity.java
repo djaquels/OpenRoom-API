@@ -12,9 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -24,13 +24,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author hjaca
  */
 @Entity
-@Table(name = "room_category", catalog = "openroom", schema = "public")
+@Table(name = "user_role", catalog = "openroom", schema = "public")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "RoomCategory.findAll", query = "SELECT r FROM RoomCategory r"),
-    @NamedQuery(name = "RoomCategory.findById", query = "SELECT r FROM RoomCategory r WHERE r.id = :id"),
-    @NamedQuery(name = "RoomCategory.findByCategoryName", query = "SELECT r FROM RoomCategory r WHERE r.categoryName = :categoryName")})
-public class RoomCategory implements Serializable {
+public class UserRoleEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,15 +34,15 @@ public class RoomCategory implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "category_name")
-    private String categoryName;
-    @ManyToMany(mappedBy = "roomCategoryList")
-    private List<Rooms> roomsList;
+    @Column(name = "role_name")
+    private String roleName;
+    @OneToMany(mappedBy = "idUserRole")
+    private List<RoomsUsersEntity> roomsUsersList;
 
-    public RoomCategory() {
+    public UserRoleEntity() {
     }
 
-    public RoomCategory(Integer id) {
+    public UserRoleEntity(Integer id) {
         this.id = id;
     }
 
@@ -58,21 +54,21 @@ public class RoomCategory implements Serializable {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @XmlTransient
-    public List<Rooms> getRoomsList() {
-        return roomsList;
+    public List<RoomsUsersEntity> getRoomsUsersList() {
+        return roomsUsersList;
     }
 
-    public void setRoomsList(List<Rooms> roomsList) {
-        this.roomsList = roomsList;
+    public void setRoomsUsersList(List<RoomsUsersEntity> roomsUsersList) {
+        this.roomsUsersList = roomsUsersList;
     }
 
     @Override
@@ -85,10 +81,10 @@ public class RoomCategory implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RoomCategory)) {
+        if (!(object instanceof UserRoleEntity)) {
             return false;
         }
-        RoomCategory other = (RoomCategory) object;
+        UserRoleEntity other = (UserRoleEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -97,7 +93,7 @@ public class RoomCategory implements Serializable {
 
     @Override
     public String toString() {
-        return "models.RoomCategory[ id=" + id + " ]";
+        return "models.UserRole[ id=" + id + " ]";
     }
     
 }
