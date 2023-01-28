@@ -20,6 +20,8 @@ import java.util.Optional;
 import openroom.com.Service.models.RoomCategoryEntity;
 import openroom.com.Service.models.RoomsEntity;
 import openroom.com.Service.repositories.RoomCategoryRepository;
+import openroom.com.Service.utils.CreateRoomCategoryRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  *
@@ -32,6 +34,7 @@ public class Rooms {
     
     @Autowired
     private RoomCategoryRepository roomCategoryRepository;
+    
     
     @PostMapping(value="/rooms/new", produces = "application/json")
     public Map<Object,String> createRoom(@RequestBody CreateRoomRequest createRoomRequest ) throws Exception{
@@ -51,6 +54,26 @@ public class Rooms {
         newRoom.setRoomCategoryList(categoriesList);
         roomsRepository.save(newRoom);
         response.put("message", "Room created successfully!");
+        return response;
+    }
+    @GetMapping(value="/rooms/categories", produces="application/json")
+    public Map<Object,String> getRoomCategories() throws Exception{
+      Map<Object,String> response = new HashMap<>();
+      return response;
+    }
+    @PostMapping(value="/rooms/categories/new", produces="application/json")
+    public Map<Object,String> createNewRoomCategory(@RequestBody CreateRoomCategoryRequest request) throws Exception{
+        Map<Object,String> response = new HashMap<>();
+        Map<String,String> rules = new HashMap<>();
+        rules.put("categoryName","required");
+        List<String> errors = RequestValidator.validate(request,rules);
+        if(!errors.isEmpty()){
+            throw new Exception(errors.toString());
+        }
+        RoomCategoryEntity newRoomCategory = new RoomCategoryEntity(); 
+        newRoomCategory.setCategoryName(request.getCategoryName().toString().strip());
+        roomCategoryRepository.save(newRoomCategory);
+        response.put("message","new room category created successfully!");
         return response;
     }
        
