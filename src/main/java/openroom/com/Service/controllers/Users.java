@@ -20,6 +20,8 @@ import openroom.com.Service.models.UserRoleEntity;
 
 import openroom.com.Service.repositories.UsersRepository;
 import openroom.com.Service.repositories.UsersRolesRepository;
+import openroom.com.Service.utils.ResponseFactory;
+import openroom.com.Service.utils.UsersResponse;
 import openroom.com.Service.utils.newUserRoleRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,12 +35,12 @@ public class Users {
     @Autowired
     private UsersRolesRepository userRolesRepository;
     
+    private ResponseFactory response;
+    
     @GetMapping(value="/users", produces = "application/json")
     public Map<String,Object> GetUsers() throws Exception {
-      HashMap<String,Object> response = new HashMap<>();
-      response.put("responseCode",  HttpStatus.FOUND);
-      response.put("users",usersRepository.findAll());
-      return response;
+      this.response = new UsersResponse(usersRepository.findAll()); 
+      return response.getResponse(HttpStatus.FOUND);
     }
     
     @GetMapping(value="/users/{id}", produces = "application/json")

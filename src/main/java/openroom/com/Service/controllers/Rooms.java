@@ -21,6 +21,9 @@ import openroom.com.Service.models.RoomCategoryEntity;
 import openroom.com.Service.models.RoomsEntity;
 import openroom.com.Service.repositories.RoomCategoryRepository;
 import openroom.com.Service.utils.CreateRoomCategoryRequest;
+import openroom.com.Service.utils.ResponseFactory;
+import openroom.com.Service.utils.RoomsResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -35,6 +38,8 @@ public class Rooms {
     @Autowired
     private RoomCategoryRepository roomCategoryRepository;
     
+    
+    private  ResponseFactory response;
     
     @PostMapping(value="/rooms/new", produces = "application/json")
     public Map<Object,String> createRoom(@RequestBody CreateRoomRequest createRoomRequest ) throws Exception{
@@ -60,6 +65,12 @@ public class Rooms {
     public Map<Object,String> getRoomCategories() throws Exception{
       Map<Object,String> response = new HashMap<>();
       return response;
+    }
+    
+    @GetMapping(value="/rooms/")
+    public Map<String,Object> getRooms() throws Exception{
+     this.response = new RoomsResponse(roomsRepository.findAll());
+     return response.getResponse(HttpStatus.FOUND);
     }
     @PostMapping(value="/rooms/categories/new", produces="application/json")
     public Map<Object,String> createNewRoomCategory(@RequestBody CreateRoomCategoryRequest request) throws Exception{
