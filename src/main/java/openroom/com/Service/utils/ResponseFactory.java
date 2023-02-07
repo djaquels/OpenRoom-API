@@ -19,12 +19,14 @@ public class ResponseFactory {
         return null;
     }
     
-    public Map<String,Object> getResponse(HttpStatus code){
+    public Map<String,Object> getResponse(HttpStatus code,Integer page, Integer limit){
       Map<String,Object> response = new HashMap<>();
       Items list =  createItem();
       response.put("response_code", code);
       response.put("time",LocalDateTime.now().toString());
       response.put("resources", list.getItems());
+      response.put("offset",page);
+      response.put("limit",limit);
       return response;
     
     }
